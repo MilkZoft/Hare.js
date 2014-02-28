@@ -1,0 +1,10 @@
+extends layout
+
+block header
+	.body
+		header
+			.container
+				h1.logo
+					a(href='/')
+						img(alt='#{config.site.title}', src='#{config.site.url}/themes/codejobs/images/logo.png')
+					p=config.site.title
