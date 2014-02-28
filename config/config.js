@@ -8,7 +8,8 @@ var config = {
 	},
     site: {
     	url: 'http://localhost:3000',
-    	title: 'CodeJobs'
+    	title: 'CodeJobs',
+        language: 'es'
     },
     server: {
     	environment: 'local',
