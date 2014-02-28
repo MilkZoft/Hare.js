@@ -2,7 +2,7 @@ var config = {
 	db: {
 		host: '127.0.0.1',
 		user: 'root',
-		password: '211182',
+		password: '',
 		database: 'codejobs_node',
 		port: 3306
 	},
