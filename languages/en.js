@@ -1,4 +1,4 @@
-var en = {
+var translations = {
 	errors: {
 		'404': 'Error 404: Page not found',
 		'500': 'Error 500: Internal Server Error'
@@ -18,4 +18,4 @@ var en = {
 	'welcome.world': 'Welcome World'
 };
 
-exports.translate = en;
+exports.translate = translations;
