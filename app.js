@@ -4,7 +4,7 @@
 var express = require('express'),
 	http 	= require('http'),
 	path 	= require('path'),
-	global  = require('./config/config'),
+	global  = require('./config/config'),	
 	app 	= express();
 
 // All environments
@@ -28,38 +28,78 @@ if (app.get('env') == 'development') {
 	app.use(express.errorHandler());
 }
 
+function isLanguage(language)
+{
+	if (language == 'es' || 
+		language == 'en' ||
+		language == 'fr' ||
+		language == 'pt' ||
+		language == 'it' ||
+		language == 'ge' ||
+		language == 'ch'
+		) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Router
+ */
 app.use(function(req, res, next) {
+	// Loading the default language until a different language is specified through the url.
+	var lang = require('./languages/' + global.config.site.language);
+
 	var path = req.url.replace(/^\/|\/$/g, ''),
-		url  = (path) ? path.split('/') : 'home';
-	
-	if (url == 'home') {
-		var execute = require('./controllers/home');
+		url  = (path) ? path.split('/') : false,
+		params = [];
 
-		execute.index(req, res);
+	// Default controller is defined in global.config.application.controllers.default
+	if (!url) {
+		var execute = require('./controllers/' + global.config.application.controllers.default);
+
+		execute.index(req, res, [], lang);
 	} else {
-		var controller = url[0];
-		var action = (url[1]) ? url[1] : 'index';
-		var params = [];
+		var controller = (url[0] == 'es' || url[0] == 'en') ? url[1] : url[0];
 
-		if (url.length > 2) {
+		if (isLanguage(url[0]) && url.length == 1) {
+			lang = require('./languages/' + url[0]);
+			
+			var execute = require('./controllers/' + global.config.application.controllers.default);
+
+			execute.index(req, res, [], lang);
+		} else if (isLanguage(url[0])) {
+			var action = (url[2]) ? url[2] : 'index';
+
+			lang = require('./languages/' + url[0]);
+		} else  {
+			var action = (url[1]) ? url[1] : 'index';
+		}
+
+		if (url.length > 3 && isLanguage(url[0])) {
+			for (var i = 3; i <= url.length; i++) {
+				if (url[i]) {
+					params.push(url[i]);
+				}
+			}
+		} else if (url.length > 2) {
 			for (var i = 2; i <= url.length; i++) {
 				if (url[i]) {
 					params.push(url[i]);
 				}
 			}
 		}
-		console.log(action);
-		
+
 		try {
 			var execute = require('./controllers/' + controller);
 
-			execute[action](req, res, params);
+			execute[action](req, res, params, lang);
 		} catch(e) {
-			console.log(e);
 			var execute = require('./controllers/error');
 
-			execute.error404(req, res);
-		}			
+			execute.error404(req, res, [], lang);
+		}
 	}
 });
 
