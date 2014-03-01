@@ -9,7 +9,12 @@ var config = {
     site: {
     	url: 'http://localhost:3000',
     	title: 'CodeJobs',
-        language: 'es'
+        language: 'en'
+    },
+    application: {
+        controllers: {
+            default: 'home'
+        }
     },
     server: {
     	environment: 'local',
