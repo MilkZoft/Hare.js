@@ -14,6 +14,16 @@ var config = {
     application: {
         controllers: {
             default: 'home'
+        },
+        languages: {
+            en: true,
+            es: true,
+            fr: true,
+            it: true,
+            pt: true,
+            ge: true,
+            ch: true,
+            jp: true
         }
     },
     server: {

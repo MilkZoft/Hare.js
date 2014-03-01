@@ -30,15 +30,7 @@ if (app.get('env') == 'development') {
 
 function isLanguage(language)
 {
-	if (language == 'es' || 
-		language == 'en' ||
-		language == 'fr' ||
-		language == 'pt' ||
-		language == 'it' ||
-		language == 'ge' ||
-		language == 'ch' ||
-		language == 'jp'
-		) {
+	if (global.config.application.languages[language]) {
 		return true;
 	}
 
