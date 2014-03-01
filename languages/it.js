@@ -18,4 +18,4 @@ var translations = {
 	'welcome.world': 'Benvenuti Mondo'
 };
 
-exports.translate = translations;
+module.exports = translations;
