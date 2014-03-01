@@ -17,8 +17,8 @@ module.exports = {
     	});
     },
     
-    login: function(req, res, params)
+    login: function(req, res, params, lang)
     { 
-    	console.log("Login", params);
+    	res.send(lang.translate.users['logout']);
     }
 };
