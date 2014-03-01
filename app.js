@@ -2,10 +2,10 @@
  * Module dependencies.
  */
 var express = require('express'),
-	http 	= require('http'),
-	path 	= require('path'),
-	global  = require('./config/config'),	
-	app 	= express();
+	http = require('http'),
+	path = require('path'),
+	global = require('./config/config'),	
+	app = express();
 
 // All environments
 app.set('port', process.env.PORT || 3000);
@@ -65,7 +65,7 @@ app.use(function(req, res, next) {
 
 		if (isLanguage(url[0]) && url.length == 1) {
 			lang = require('./languages/' + url[0]);
-			
+
 			var execute = require('./controllers/' + global.config.application.controllers.default);
 
 			execute.index(req, res, [], lang);
