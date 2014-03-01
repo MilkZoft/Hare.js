@@ -61,7 +61,7 @@ app.use(function(req, res, next) {
 
 		execute.index(req, res, [], lang);
 	} else {
-		var controller = (url[0] == 'es' || url[0] == 'en') ? url[1] : url[0];
+		var controller = (isLanguage(url[0])) ? url[1] : url[0];
 
 		if (isLanguage(url[0]) && url.length == 1) {
 			lang = require('./languages/' + url[0]);
