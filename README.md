@@ -12,12 +12,10 @@ This framework was developed by [Carlos Santana] with [@codejobs] community supp
 
 Version
 ----
-
 0.1
 
 Tech
 -----------
-
 Hare.js uses a number of open source projects to work properly:
 
 * [Node.js] - evented I/O for the backend
@@ -29,7 +27,6 @@ Hare.js uses a number of open source projects to work properly:
 
 Installation
 --------------
-
 ```sh
 git clone https://github.com/MilkZoft/Hare.js.git
 cd Hare.js
@@ -43,7 +40,7 @@ npm install
 node app
 ```
 
-Go to http://localhost:3000
+Go to [localhost:3000]
 
 License
 ----
@@ -53,6 +50,7 @@ MIT
 
 **Free Software, Hell Yeah!**
 
+[localhost:3000]:http://localhost:3000
 [Carlos Santana]:http://www.twitter.com/czantany
 [@codejobs]:http://twitter.com/codejobs
 [Jade]:http://jade-lang.com
