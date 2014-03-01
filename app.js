@@ -36,7 +36,8 @@ function isLanguage(language)
 		language == 'pt' ||
 		language == 'it' ||
 		language == 'ge' ||
-		language == 'ch'
+		language == 'ch' ||
+		language == 'jp'
 		) {
 		return true;
 	}
