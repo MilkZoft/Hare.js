@@ -1,8 +1,7 @@
 /*
  * MySQL
  */
-var mysql = require('mysql'),
-	global = require('../config/config');
+var mysql = require('mysql');
 
 var connection = mysql.createConnection({
 	host: global.config.db.host,

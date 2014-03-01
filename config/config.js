@@ -28,8 +28,8 @@ var config = {
     },
     server: {
     	environment: 'local',
-    	debug: true
+    	debug: false
     }
 };
 
-exports.config = config;
+module.exports = config;

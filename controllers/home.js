@@ -5,6 +5,6 @@
 module.exports = {
     index: function(req, res, params, lang)
     { 
-    	res.send(lang.translate.global['welcome']);
+    	res.send(global.lang.global['welcome']);
     }
 };

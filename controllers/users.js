@@ -1,24 +1,23 @@
 /*
  * GET users.
  */
-var globals = require('../config/config'),
-	db = require('../db/mysql');
+var db = require('../db/mysql');
 
 module.exports = {
-    index: function(req, res, params, lang)
+    index: function(req, res, params)
     { 
-    	res.send(lang.translate['hello.world']);
+    	res.send(global.lang['hello.world']);
     },
 
-    get: function(req, res, params, lang)
+    get: function(req, res, params)
     {
     	db.find({id: 1, table: 'users', fields: '*'}, function(error, data) {
     		res.render('users_user', { users: data });
     	});
     },
     
-    login: function(req, res, params, lang)
+    login: function(req, res, params)
     { 
-    	res.send(lang.translate.users['logout']);
+    	res.send(global.lang.users['logout']);
     }
 };
