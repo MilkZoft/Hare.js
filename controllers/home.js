@@ -1,10 +1,10 @@
-/*
+/**
  * Home
  */
 
 module.exports = {
-    index: function(req, res)
+    index: function(req, res, params, lang)
     { 
-    	res.send('Home');
+    	res.send(lang.translate.global['welcome']);
     }
 };
