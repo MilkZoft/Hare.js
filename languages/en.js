@@ -1,19 +1,21 @@
 var en = {
-    errors: {
-        '404': 'Error 404: Page not found',
-        '500': 'Error 500: Internal Server Error'
-    },
+	errors: {
+		'404': 'Error 404: Page not found',
+		'500': 'Error 500: Internal Server Error'
+	},
 
-    users: {
-        'username': 'Username'
-    },
+	users: {
+		'logout': 'Logout',
+		'username': 'Username'
+	},
 
-    global: {
-        'hi': 'Hi'
-    },
+	global: {
+		'hi': 'Hi',
+		'welcome': 'Welcome and thank you for using hare.js'
+	},
 
 	'hello.world': 'Hello World',
-    'welcome.world': 'Welcome World'
+	'welcome.world': 'Welcome World'
 };
 
 exports.translate = en;

@@ -1,19 +1,22 @@
 var es = {
 	errors: {
-        '404': 'Error 404: Página no encontrada',
-        '500': 'Error 500: Error interno del servidor'
-    },
+		'404': 'Error 404: Página no encontrada',
+		'500': 'Error 500: Error interno del servidor'
+	},
 
-    users: {
-        'username': 'Nombre de usuario'
-    },
+	users: {
+		'logout': 'Desconectar',
+		'username': 'Nombre de usuario'
+	},
 
-    global: {
-        'hi': 'Hola'
-    },
+	global: {
+		'hi': 'Hola',
+		'welcome': 'Bienvenido y gracias por utilizar hare.js'
+	},
 
 	'hello.world': 'Hola Mundo',
-    'welcome.world': 'Bienvenido Mundo'
+	'welcome.world': 'Bienvenido Mundo'
+	
 };
 
 exports.translate = es;
