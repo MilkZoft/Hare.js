@@ -13,8 +13,8 @@ app.set('view engine', 'jade');
 
 // Global variables for templates
 global.config = require('./config/config');
-global.debug = require('./helpers/debug');
-global.i18n = require('./helpers/i18n');
+global.debug = require('./system/helpers/debug');
+global.i18n = require('./system/helpers/i18n');
 app.locals = global.config;
 
 app.use(express.favicon());
