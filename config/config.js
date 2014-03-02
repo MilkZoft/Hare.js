@@ -10,7 +10,8 @@ var config = {
   site: {
     url: 'http://localhost:3000',
     title: 'CodeJobs',
-    language: 'en'
+    language: 'en',
+    theme: 'default'
   },
   
   application: {
