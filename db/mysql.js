@@ -11,20 +11,22 @@ var connection = mysql.createConnection({
 });
 
 module.exports = {
-  find: function(options, callback)
+  find: function (options, callback)
   { 
     if (!options.id || !options.table) {
       return false;
     }
 
-    connection.connect();
-
     var fields = (options.fields) ? options.fields : '*',
         sql = 'SELECT ' + fields + ' FROM ' + options.table + ' WHERE id = ' + options.id;
 
-    console.log((global.config.server.debug) ? sql : null);
+    global.debug.set({ 
+      file: 'db/mysql.js', 
+      l: 23, 
+      f: 'find', 
+      s: sql
+    });
 
     connection.query(sql, callback);
-    connection.end();
   }
 };
