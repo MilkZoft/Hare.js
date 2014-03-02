@@ -17,6 +17,8 @@ app.set('view engine', 'jade');
 global.config = require('./config/config');
 global.debug = require('./system/helpers/debug');
 global.i18n = require('./system/helpers/i18n');
+global.str = require('./system/helpers/string');
+
 app.locals = global.config;
 
 app.use(express.favicon());
@@ -67,19 +69,15 @@ app.use(function(req, res, next) {
     } else  {
       var action = (url[1]) ? url[1] : 'index';
     }
+      
+    if (url.length > 2) {
+      var j = (url.length > 3 && global.i18n.isLanguage(url[0])) ? 3 : 2;
 
-    if (url.length > 3 && global.i18n.isLanguage(url[0])) {
-      for (var i = 3; i <= url.length; i++) {
+      for (var i = j; i <= url.length; i++) {
         if (url[i]) {
-          params.push(url[i]);
+          params.push(global.str.sanitize(url[i]));
         }
-      }
-    } else if (url.length > 2) {
-      for (var i = 2; i <= url.length; i++) {
-        if (url[i]) {
-          params.push(url[i]);
-        }
-      }
+      }   
     }
 
     try {
