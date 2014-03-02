@@ -1,7 +1,7 @@
 var self = {
   isLanguage: function(language) 
   {       
-    if (global.config.application.languages[language]) {
+    if (global.config.application.languages.inArray(language)) {
       global.debug.set({ 
         file: 'helpers/i18n.js', 
         l: 10, 
