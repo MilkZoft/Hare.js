@@ -3,7 +3,7 @@ var config = {
     host: '127.0.0.1',
     user: 'root',
     password: '',
-    database: 'codejobs_node',
+    database: 'hare',
     port: 3306
   },
   
@@ -18,13 +18,26 @@ var config = {
       default: 'home'
     },
     
-    languages: { 'en', 'es', 'fr', 'it', 'pt', 'ge', 'ch', 'jp' }
+    languages: [ 'en', 'es', 'fr', 'it', 'pt', 'ge', 'ch', 'jp' ]
   },
   
   server: {
     environment: 'local',
-    debug: false
+    debug: true
   }
 };
 
 module.exports = config;
+
+/**
+ *  Prototyping functions
+ */
+Array.prototype.inArray = function(element) { 
+  for (var j in this) { 
+    if (this[j] == arguments[0]) { 
+      return true;
+    } 
+  }
+
+  return false;     
+}
