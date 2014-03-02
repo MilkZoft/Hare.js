@@ -14,7 +14,7 @@ module.exports = {
     var id = params[0];
 
     users.get(id, function (error, result) {
-      res.render('users_user', { users: result });
+      res.render('users/user', { users: result });
     });
   },
 
@@ -23,7 +23,7 @@ module.exports = {
     var email = params[0];
 
     users.get({ email: email }, function (error, result) {
-      res.render('users_user', { users: result });
+      res.render('users/user', { users: result });
     })
   }
 };
