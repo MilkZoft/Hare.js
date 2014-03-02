@@ -18,7 +18,7 @@ module.exports = {
     }
 
     var fields = (options.fields) ? options.fields : '*',
-        sql = 'SELECT ' + fields + ' FROM ' + options.table + ' WHERE id = ' + options.id;
+        sql = 'SELECT ' + fields + ' FROM ' + options.table + ' WHERE ' + options.key + ' = ' + options.id;
 
     global.debug.set({ 
       file: 'db/mysql.js', 

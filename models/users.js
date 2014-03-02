@@ -1,12 +1,12 @@
 /*
  * GET users.
  */
-var model = require('../system/model');
+var Model = require('../system/model');
 
 module.exports = {
   get: function (query, callback)
   {
-    var User = new model({ 
+    var User = new Model({ 
       table: 'users', 
       fields: 'id, username, email', 
       key: 'id' 
