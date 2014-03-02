@@ -46,35 +46,33 @@ app.use(function(req, res, next) {
 
   var path = req.url.replace(/^\/|\/$/g, ''),
       url = (path) ? path.split('/') : false,
-      params = [];
+      params = [],
+      start = 2,
+      controller = (url[0]) ? url[0] : global.config.application.controllers.default,
+      action = (url[1]) ? url[1] : 'index',
+      exe = false;
 
   // Default controller is defined in global.config.application.controllers.default
   if (!url) {
-    var execute = require('./controllers/' + global.config.application.controllers.default);
-
-    execute.index(req, res, [], lang);
+    exe = require('./controllers/' + controller);
+    exe.index(req, res, [], lang);
   } else {
     if (global.i18n.isLanguage(url[0])) {
-      var controller = url[1];
-      var action = (url[2]) ? url[2] : 'index';
+      controller = url[1];
+      action = (url[2]) ? url[2] : 'index';
 
       global.lang = require('./languages/' + url[0]);
 
       if (url.length == 1) {
-        var execute = require('./controllers/' + global.config.application.controllers.default);
-
-        execute.index(req, res, []);
+        exe = require('./controllers/' + global.config.application.controllers.default);
+        exe.index(req, res, []);
       }
 
-      var j = (url.length > 3) ? 3 : 2;
-    } else {
-      var controller = url[0];
-      var action = (url[1]) ? url[1] : 'index';
-      var j = 2;
+      start = (url.length > 3) ? 3 : 2;
     }
 
     if (url.length > 2) {
-      for (var i = j; i <= url.length; i++) {
+      for (var i = start; i <= url.length; i++) {
         if (url[i]) {
           params.push(global.str.sanitize(url[i]));
         }
@@ -82,15 +80,12 @@ app.use(function(req, res, next) {
     }
 
     try {
-      var execute = require('./controllers/' + controller);
-
-      execute[action](req, res, params);
+      exe = require('./controllers/' + controller);
+      exe[action](req, res, params);
     } catch(e) {
       console.log("---ERROR FATAL---", e);
-
-      var execute = require('./controllers/error');
-
-      execute.error404(req, res, []);
+      exe = require('./controllers/error');
+      exe.error404(req, res, []);
     }
   }
 });
