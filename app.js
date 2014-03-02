@@ -34,12 +34,15 @@ if (app.get('env') == 'development') {
  * Router
  */
 app.use(function(req, res, next) {
+  global.req = req;
+  global.res = res;
+  
   // Loading the default language until a different language is specified through the url.
   global.lang = require('./languages/' + global.config.site.language);
 
   var path = req.url.replace(/^\/|\/$/g, ''),
-    url  = (path) ? path.split('/') : false,
-    params = [];
+      url  = (path) ? path.split('/') : false,
+      params = [];
 
   // Default controller is defined in global.config.application.controllers.default
   if (!url) {
@@ -82,6 +85,7 @@ app.use(function(req, res, next) {
 
       execute[action](req, res, params);
     } catch(e) {
+      console.log("ERROR", e);
       var execute = require('./controllers/error');
 
       execute.error404(req, res, []);
