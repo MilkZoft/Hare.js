@@ -1,0 +1,6 @@
+extends ../layout
+
+block content
+  - if (typeof(users) !== 'undefined')
+    each user in users
+      h1=user.username
