@@ -1,23 +1,29 @@
 /*
  * GET users.
  */
-var db = require('../db/mysql');
+var users = require('../models/users');
 
 module.exports = {
-  index: function(req, res, params)
+  index: function (req, res, params)
   { 
     res.send(global.lang['hello.world']);
   },
 
-  get: function(req, res, params)
+  get: function (req, res, params)
   {
-    db.find({id: 1, table: 'users', fields: '*'}, function(error, data) {
-      res.render('users_user', { users: data });
+    var id = params[0];
+
+    users.get(id, function (error, result) {
+      res.render('users_user', { users: result });
     });
   },
-    
-  login: function(req, res, params)
-  { 
-    res.send(global.lang.users['logout']);
+
+  email: function (req, res, params)
+  {
+    var email = params[0];
+
+    users.get({ email: email }, function (error, result) {
+      res.render('users_user', { users: result });
+    })
   }
 };
