@@ -1,4 +1,4 @@
-var db = require('../db/mysql');
+var db = require('./db/mysql');
 
 module.exports = function(schema) {
   return {
