@@ -6,6 +6,8 @@ var express = require('express'),
     path = require('path'),
     app = express();
 
+require('./system/functions');
+
 // All environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
