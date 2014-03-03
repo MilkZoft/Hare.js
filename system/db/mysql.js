@@ -15,6 +15,7 @@ module.exports = {
   find: function (obj, callback)
   { 
     if (!obj.id || !obj.table) {
+      global.debug.set('find(): Missing id or table!');
       return false;
     }
 
@@ -36,6 +37,7 @@ module.exports = {
   findAll: function (obj, callback)
   { 
     if (!obj.table) {
+      global.debug.set('findAll(): Missing table!');
       return false;
     }
 
@@ -62,7 +64,7 @@ module.exports = {
   findBy: function (obj, callback)
   { 
     if (!obj.table) {
-      return false;
+      global.debug.set(global.lang.errors.db['missing.table']);
     }
 
     var fields = (obj.fields) ? obj.fields : '*',
@@ -88,8 +90,12 @@ module.exports = {
 
   findBySQL: function (obj, callback)
   { 
-    if (!obj.table || !obj.query) {
-      return false;
+    if (!obj.table) {
+      global.debug.set(global.lang.errors.db['missing.table']);
+    }
+
+    if (!obj.query) {
+      global.debug.set('findBySQL(): Missing table or query!');
     }
 
     var fields = (obj.fields) ? obj.fields : '*',
@@ -111,5 +117,49 @@ module.exports = {
     });
 
     connection.query(sql, callback);
-  },  
+  },
+
+  findFirst: function (obj, callback)
+  { 
+    if (!obj.table) {
+      global.debug.set('findFirst(): Missing table!');
+      return false;
+    }
+
+    var fields = (obj.fields) ? obj.fields : '*',       
+        sql    = 'SELECT ' + fields    + ' ';
+        sql   += 'FROM '   + obj.table + ' ';
+        sql   += 'LIMIT 1'
+
+    global.debug.set({ 
+      file: 'db/mysql.js', 
+      l: 129, 
+      f: 'findFirst', 
+      s: sql
+    });
+
+    connection.query(sql, callback);
+  },
+
+  findLast: function (obj, callback)
+  { 
+    if (!obj.table || !obj.key) {
+      global.debug.set('findLast(): Missing table or key!');
+      return false;
+    }
+
+    var fields = (obj.fields) ? obj.fields : '*',       
+        sql    = 'SELECT ' + fields    + ' ';
+        sql   += 'FROM '   + obj.table + ' ';
+        sql   += 'ORDER BY ' + obj.key + ' DESC LIMIT 1';
+
+    global.debug.set({ 
+      file: 'db/mysql.js', 
+      l: 129, 
+      f: 'findFirst', 
+      s: sql
+    });
+
+    connection.query(sql, callback);
+  },
 };

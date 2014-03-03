@@ -1,7 +1,11 @@
 var translations = {
   errors: {
     '404': 'Error 404: Page not found',
-    '500': 'Error 500: Internal Server Error'
+    '500': 'Error 500: Internal Server Error',
+    
+    db: {
+      'missing.table' : 'Missing table name!'
+    }
   },
 
   users: {

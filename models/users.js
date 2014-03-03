@@ -18,7 +18,6 @@ module.exports = {
   getByEmail: function (query, callback)
   {
     var User = new Model({ 
-      table: 'users', 
       fields: 'id, username, email', 
       order: 'username asc'
     });
@@ -37,5 +36,15 @@ module.exports = {
     });
 
     User.get('all', callback);
+  },
+
+  getFirst: function (callback)
+  {
+    var User = new Model({ 
+      table: 'users', 
+      fields: 'id, username, email'
+    });
+
+    User.get('first', callback);
   }
 };
