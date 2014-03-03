@@ -6,7 +6,7 @@ var express = require('express'),
     path = require('path'),
     app = express();
 
-require('./system/functions');
+require('./system/prototype');
 
 // Global variables
 global.config = require('./config/config');
