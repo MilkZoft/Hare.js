@@ -12,7 +12,6 @@ require('./system/functions');
 global.config = require('./config/config');
 global.debug = require('./system/helpers/debug');
 global.i18n = require('./system/helpers/i18n');
-global.str = require('./system/helpers/string');
 
 // All environments
 app.set('port', process.env.PORT || 3000);
@@ -75,7 +74,7 @@ app.use(function(req, res, next) {
     if (segments > 2) {
       for (var i = start; i <= segments; i++) {
         if (url[i]) {
-          params.push(global.str.sanitize(url[i]));
+          params.push(url[i].sanitize());
         }
       }
     }
