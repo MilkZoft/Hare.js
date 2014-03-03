@@ -1,5 +1,5 @@
 /**
- *  Prototyping functions
+ *  Prototyping Array functions
  */
 Array.prototype.inArray = function(element) { 
   for (var j in this) { 
