@@ -12,7 +12,7 @@ This framework was developed by [Carlos Santana] with [@codejobs] community supp
 
 Version
 ----
-0.1
+0.0.1
 
 Tech
 -----------
