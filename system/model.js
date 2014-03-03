@@ -7,7 +7,17 @@ module.exports = function(schema) {
         return false;
       }
 
-      if (!isNaN(q)) {
+      if (q == 'all') {
+        schema.fields = (schema.fields) ? schema.fields : '*';
+        
+        db.findAll({ 
+          table: schema.table, 
+          fields: schema.fields,
+          group: (schema.group) ? schema.group : false,
+          order: (schema.order) ? schema.order : false,
+          limit: (schema.limit) ? schema.limit : false
+        }, callback);
+      } else if (!isNaN(q)) {
         schema.key = (schema.key) ? schema.key : 'id';
         schema.fields = (schema.fields) ? schema.fields : '*';
         
@@ -31,7 +41,9 @@ module.exports = function(schema) {
             query: query,
             table: schema.table, 
             fields: schema.fields,
-            order: (schema.order) ? schema.order : false
+            group: (schema.group) ? schema.group : false,
+            order: (schema.order) ? schema.order : false,
+            limit: (schema.limit) ? schema.limit : false
           }, callback);
         } else {
           var field = fields[0],
@@ -42,7 +54,9 @@ module.exports = function(schema) {
             value: value,
             table: schema.table, 
             fields: schema.fields,
-            order: (schema.order) ? schema.order : false
+            group: (schema.group) ? schema.group : false,
+            order: (schema.order) ? schema.order : false,
+            limit: (schema.limit) ? schema.limit : false
           }, callback);
         }
       }
