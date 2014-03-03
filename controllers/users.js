@@ -9,6 +9,13 @@ module.exports = {
     res.send(global.lang['hello.world']);
   },
 
+  all: function (req, res, params)
+  {
+    users.getAll(function (error, result) {
+      res.render('users/user', { users: result });
+    });
+  },
+
   get: function (req, res, params)
   {
     var id = params[0];

@@ -24,5 +24,18 @@ module.exports = {
     });
 
     User.get(query, callback);
+  },
+
+  getAll: function (callback)
+  {
+    var User = new Model({ 
+      table: 'users', 
+      fields: 'id, username, email',
+      group: 'username',
+      order: 'username',
+      limit: '0, 10'
+    });
+
+    User.get('all', callback);
   }
 };
