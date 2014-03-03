@@ -25,8 +25,34 @@ module.exports = {
 
     global.debug.set({ 
       file: 'db/mysql.js', 
-      l: 25, 
+      l: 28, 
       f: 'find', 
+      s: sql
+    });
+
+    connection.query(sql, callback);
+  },
+
+  findAll: function (obj, callback)
+  { 
+    if (!obj.table) {
+      return false;
+    }
+
+    var fields = (obj.fields) ? obj.fields : '*',
+        group  = (obj.group) ? ' GROUP BY ' + obj.group + ' ' : '',
+        order  = (obj.order) ? ' ORDER BY ' + obj.order + ' ' : '',
+        limit  = (obj.limit) ? ' LIMIT ' + obj.limit + ' ' : '',        
+        sql    = 'SELECT ' + fields    + ' ';
+        sql   += 'FROM '   + obj.table + ' ';
+        sql   += group,
+        sql   += order,
+        sql   += limit;
+
+    global.debug.set({ 
+      file: 'db/mysql.js', 
+      l: 54, 
+      f: 'findByAll', 
       s: sql
     });
 
@@ -52,7 +78,7 @@ module.exports = {
 
     global.debug.set({ 
       file: 'db/mysql.js', 
-      l: 70, 
+      l: 81, 
       f: 'findBy', 
       s: sql
     });
@@ -79,7 +105,7 @@ module.exports = {
 
     global.debug.set({ 
       file: 'db/mysql.js', 
-      l: 82, 
+      l: 108, 
       f: 'findBySQL', 
       s: sql
     });
