@@ -8,20 +8,20 @@ var express = require('express'),
 
 require('./system/functions');
 
-// All environments
-app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 // Global variables
 global.config = require('./config/config');
 global.debug = require('./system/helpers/debug');
 global.i18n = require('./system/helpers/i18n');
 global.str = require('./system/helpers/string');
 
-app.locals = global.config;
+// All environments
+app.set('port', process.env.PORT || 3000);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', global.config.site.html.engine);
 
-app.use(express.favicon());
+app.locals = global.config;
+app.locals.pretty = !global.config.site.html.minify;
+
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
@@ -50,6 +50,7 @@ app.use(function(req, res, next) {
       start = 2,
       controller = (url[0]) ? url[0] : global.config.application.controllers.default,
       action = (url[1]) ? url[1] : 'index',
+      segments = (url) ? url.length : 0,
       exe = false;
 
   // Default controller is defined in global.config.application.controllers.default
@@ -63,16 +64,16 @@ app.use(function(req, res, next) {
 
       global.lang = require('./languages/' + url[0]);
 
-      if (url.length == 1) {
+      if (segments == 1) {
         exe = require('./controllers/' + global.config.application.controllers.default);
         exe.index(req, res, []);
       }
 
-      start = (url.length > 3) ? 3 : 2;
+      start = (segments > 3) ? 3 : 2;
     }
 
-    if (url.length > 2) {
-      for (var i = start; i <= url.length; i++) {
+    if (segments > 2) {
+      for (var i = start; i <= segments; i++) {
         if (url[i]) {
           params.push(global.str.sanitize(url[i]));
         }
