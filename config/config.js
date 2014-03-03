@@ -4,14 +4,19 @@ var config = {
     user: 'root',
     password: '',
     database: 'hare',
-    port: 3306
+    port: 3306,
+    debug: false
   },
   
   site: {
     url: 'http://localhost:3000',
     title: 'CodeJobs',
     language: 'en',
-    theme: 'default'
+    theme: 'default',
+    html: {
+      engine: 'jade',
+      minify: true
+    }
   },
   
   application: {
@@ -19,13 +24,15 @@ var config = {
       default: 'home'
     },
     
-    languages: [ 'en', 'es', 'fr', 'it', 'pt', 'ge', 'ch', 'jp' ]
+    languages: [ 
+      'en', 'es', 'fr', 'it', 'pt', 'ge', 'ch', 'jp' 
+    ]
   },
   
   server: {
     environment: 'local',
     debug: true
-  }
+  },
 };
 
 module.exports = config;
