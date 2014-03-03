@@ -4,12 +4,23 @@
 var Model = require('../system/model');
 
 module.exports = {
-  get: function (query, callback)
+  get: function (id, callback)
   {
     var User = new Model({ 
       table: 'users', 
       fields: 'id, username, email', 
-      key: 'id' 
+      key: 'id'
+    });
+
+    User.get(id, callback);
+  },
+
+  getByEmail: function (query, callback)
+  {
+    var User = new Model({ 
+      table: 'users', 
+      fields: 'id, username, email', 
+      order: 'username asc'
     });
 
     User.get(query, callback);

@@ -22,8 +22,8 @@ module.exports = {
   {
     var email = params[0];
 
-    users.get({ email: email }, function (error, result) {
+    users.getByEmail({ email: email }, function (error, result) {
       res.render('users/user', { users: result });
-    })
+    });
   }
 };
