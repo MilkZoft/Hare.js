@@ -2,23 +2,49 @@ var db = require('./db/mysql');
 
 module.exports = function(schema) {
   return {
-    get: function(query, callback) {
+    get: function(q, callback) {
       if (!schema.table) {
         return false;
       }
 
-      if (!isNaN(query)) {
+      if (!isNaN(q)) {
         schema.key = (schema.key) ? schema.key : 'id';
         schema.fields = (schema.fields) ? schema.fields : '*';
         
         db.find({
-          id: parseInt(query), 
+          id: parseInt(q), 
           table: schema.table, 
           fields: schema.fields, 
           key: schema.key
         }, callback);
-      } else {
-        
+      } else if (typeof (q) == 'object') {
+        var fields = Object.keys(q),
+            count = fields.length - 1,
+            query = '';
+
+        if (fields.length > 1) {
+          for (var i = 0; i <= count; i++) {
+            query += (i == count) ? fields[i] + ' = \'' + q[fields[i]] + '\'': fields[i] + ' = \'' + q[fields[i]] + '\' AND ';
+          }
+
+          db.findBySQL({
+            query: query,
+            table: schema.table, 
+            fields: schema.fields,
+            order: (schema.order) ? schema.order : false
+          }, callback);
+        } else {
+          var field = fields[0],
+              value = q[field];
+          
+          db.findBy({
+            field: field, 
+            value: value,
+            table: schema.table, 
+            fields: schema.fields,
+            order: (schema.order) ? schema.order : false
+          }, callback);
+        }
       }
 
       return false;
