@@ -4,7 +4,7 @@
 var express = require('express'),
     http = require('http'),
     path = require('path'),
-    app = express();
+    hare = express();
 
 require('./system/prototype');
 
@@ -14,32 +14,32 @@ global.debug = require('./system/helpers/debug');
 global.i18n = require('./system/helpers/i18n');
 
 // All environments
-app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', global.config.site.html.engine);
+hare.set('port', process.env.PORT || 3000);
+hare.set('views', path.join(__dirname, 'views'));
+hare.set('view engine', global.config.site.html.engine);
 
-app.locals = global.config;
-app.locals.pretty = !global.config.site.html.minify;
+hare.locals = global.config;
+hare.locals.pretty = !global.config.site.html.minify;
 
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+hare.use(express.logger('dev'));
+hare.use(express.json());
+hare.use(express.urlencoded());
+hare.use(express.methodOverride());
+hare.use(hare.router);
+hare.use(express.static(path.join(__dirname, 'public')));
 
 // Development only
-if (app.get('env') == 'development') {
-  app.use(express.errorHandler());
+if (hare.get('env') == 'development') {
+  hare.use(express.errorHandler());
 }
 
 /**
  * Router
  */
-app.use(function(req, res, next) {
+hare.use(function(req, res, next) {
   global.req = req;
   global.res = res;
-  
+
   // Loading the default language until a different language is specified through the url.
   global.lang = require('./languages/' + global.config.site.language);
 
@@ -90,6 +90,6 @@ app.use(function(req, res, next) {
   }
 });
 
-http.createServer(app).listen(app.get('port'), function () {
-  console.log('Running on port ' + app.get('port'));
+http.createServer(hare).listen(hare.get('port'), function () {
+  console.log('Running on port ' + hare.get('port'));
 });
