@@ -33,6 +33,10 @@ var config = {
     environment: 'local',
     debug: true
   },
+
+  security: {
+    salt: 'ehLl6Ymg1QwC3N97HTpd7SK8tRvW2vsPgBLRP2uC4]m_'
+  }
 };
 
 module.exports = config;
