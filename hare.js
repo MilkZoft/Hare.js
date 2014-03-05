@@ -80,8 +80,10 @@ hare.use(function(req, res, next) {
     }
 
     try {
-      exe = require('./controllers/' + controller);
-      exe[action](req, res, params);
+      if (controller != 'favicon.ico') {
+        exe = require('./controllers/' + controller);
+        exe[action](req, res, params);
+      }
     } catch(e) {
       console.log("---ERROR FATAL---", e);
       exe = require('./controllers/error');
