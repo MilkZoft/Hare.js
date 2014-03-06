@@ -11,7 +11,10 @@ module.exports = {
       if (!input.has('password')) {
         console.log('Falta el password');
       }
-      console.log(input.get('password'));
+
+      var data = input.except('email');
+
+      console.log(data.password);
     }
 
     res.render('home/index');
