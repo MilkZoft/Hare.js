@@ -5,7 +5,7 @@
 var input = require('../system/helpers/input');
 
 module.exports = {
-  index: function(req, res, params)
+  index: function(params)
   {
     if (input.isPost()) {
       if (!input.has('password')) {
@@ -17,6 +17,6 @@ module.exports = {
       console.log(data.password);
     }
 
-    res.render('home/index');
+    global.res.render('home/index');
   }
 };

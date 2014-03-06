@@ -55,7 +55,7 @@ hare.use(function(req, res, next) {
   // Default controller is defined in global.config.application.controllers.default
   if (!url) {
     exe = require('./controllers/' + controller);
-    exe.index(req, res, [], lang);
+    exe.index();
   } else {
     if (global.i18n.isLanguage(url[0])) {
       controller = url[1];
@@ -65,7 +65,7 @@ hare.use(function(req, res, next) {
 
       if (segments == 1) {
         exe = require('./controllers/' + global.config.application.controllers.default);
-        exe.index(req, res, []);
+        exe.index();
       }
 
       start = (segments > 3) ? 3 : 2;
@@ -82,12 +82,12 @@ hare.use(function(req, res, next) {
     try {
       if (controller != 'favicon.ico') {
         exe = require('./controllers/' + controller);
-        exe[action](req, res, params);
+        exe[action](params);
       }
     } catch(e) {
       console.log("---ERROR FATAL---", e);
       exe = require('./controllers/error');
-      exe.error404(req, res, []);
+      exe.error404();
     }
   }
 });

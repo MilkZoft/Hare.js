@@ -3,8 +3,8 @@
  */
 
 module.exports = {
-  error404: function(req, res, params)
+  error404: function(params)
   {
-    res.send(global.lang.errors['404']);
+    global.res.send(global.lang.errors['404']);
   }
 };
