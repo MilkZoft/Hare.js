@@ -8,6 +8,11 @@ var translations = {
     }
   },
 
+  date: {
+    d:['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    m:['January','February','March','April','May','June','July','August','September','October','November','December']
+  },
+
   users: {
     'logout': 'Logout',
     'username': 'Username'

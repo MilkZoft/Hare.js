@@ -1,8 +1,8 @@
 /**
  * Home
  */
-
-var input = require('../system/helpers/input');
+var input = require('../system/helpers/input'),
+    date  = require('../system/helpers/date');
 
 module.exports = {
   index: function(params)
@@ -12,9 +12,8 @@ module.exports = {
         console.log('Falta el password');
       }
 
-      var data = input.except('email');
-
-      console.log(data.password);
+      console.log(date.day());
+      console.log(date.month());
     }
 
     global.res.render('home/index');

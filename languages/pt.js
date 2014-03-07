@@ -1,7 +1,16 @@
 var translations = {
   errors: {
     '404': 'Erro 404: Página não encontrada',
-    '500': 'Erro 500: Internal Server Error'
+    '500': 'Erro 500: Internal Server Error',
+
+    db: {
+      'missing.table' : 'Missing table name!'
+    }
+  },
+
+  date: {
+    d:['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+    m:['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
   },
 
   users: {
