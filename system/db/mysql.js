@@ -15,8 +15,7 @@ module.exports = {
   find: function (obj, callback)
   { 
     if (!obj.id || !obj.table) {
-      global.debug.set('find(): Missing id or table!');
-      return false;
+      global.debug.set('find(): Missing id or table!');      
     }
 
     var fields = (obj.fields) ? obj.fields : '*',
@@ -37,8 +36,7 @@ module.exports = {
   findAll: function (obj, callback)
   { 
     if (!obj.table) {
-      global.debug.set('findAll(): Missing table!');
-      return false;
+      global.debug.set('findAll(): Missing table!');      
     }
 
     var fields = (obj.fields) ? obj.fields : '*',
@@ -122,8 +120,7 @@ module.exports = {
   findFirst: function (obj, callback)
   { 
     if (!obj.table) {
-      global.debug.set('findFirst(): Missing table!');
-      return false;
+      global.debug.set('findFirst(): Missing table!');      
     }
 
     var fields = (obj.fields) ? obj.fields : '*',       
@@ -144,8 +141,7 @@ module.exports = {
   findLast: function (obj, callback)
   { 
     if (!obj.table || !obj.key) {
-      global.debug.set('findLast(): Missing table or key!');
-      return false;
+      global.debug.set('findLast(): Missing table or key!');      
     }
 
     var fields = (obj.fields) ? obj.fields : '*',       
@@ -162,4 +158,13 @@ module.exports = {
 
     connection.query(sql, callback);
   },
+
+  query: function(query, callback)
+  {
+    if (!query) {
+      global.debug.set('query(): Your query is missing!');
+    }
+
+    connection.query(sql, callback);
+  }
 };

@@ -2,7 +2,8 @@ var db = require('./db/mysql');
 
 module.exports = function(schema) {
   return {
-    get: function(q, callback) {
+    get: function(q, callback)
+    {
       if (q == 'all') {
         schema.fields = (schema.fields) ? schema.fields : '*';
         
@@ -48,7 +49,7 @@ module.exports = function(schema) {
         } else {
           var field = fields[0],
               value = q[field];
-          console.log(field);
+          
           db.findBy({
             field:  (field)         ? field         : false, 
             value:  (value)         ? value         : false,
@@ -62,6 +63,11 @@ module.exports = function(schema) {
       }
 
       return false;
+    },
+
+    query: function(sql, callback)
+    {
+      db.query(sql, callback);
     }
   };
 }

@@ -29,7 +29,7 @@ module.exports = {
   {
     var email = params[0];
 
-    users.getByEmail({ email: email }, function (error, result) {
+    users.getByEmailUsingQuery({ email: email }, function (error, result) {
       global.res.render('users/user', { users: result });
     });
   }

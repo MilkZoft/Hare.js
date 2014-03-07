@@ -15,14 +15,20 @@ module.exports = {
     User.get(id, callback);
   },
 
-  getByEmail: function (query, callback)
+  getByEmail: function (email, callback)
   {
     var User = new Model({ 
       fields: 'id, username, email', 
       order: 'username asc'
     });
 
-    User.get(query, callback);
+    User.get(email, callback);
+  },
+
+  getByEmailUsingQuery: function (email, callback)
+  {
+    var User = new Model();
+    User.query("SELECT * FROM users WHERE email = '" + email + "'", callback);
   },
 
   getAll: function (callback)
