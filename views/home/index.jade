@@ -2,7 +2,7 @@ extends ../layout
 
 block content
   div
-    form(action='/',method='post')
+    form(action='/#{currentLanguage}',method='post')
       div(data-role='fieldcontain')
         fieldset(data-role='controlgroup')
           label(for='email') email

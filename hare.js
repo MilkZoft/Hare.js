@@ -52,6 +52,8 @@ hare.use(function(req, res, next) {
       segments = (url) ? url.length : 0,
       exe = false;
 
+  hare.locals.currentLanguage = global.config.site.language;
+
   // Default controller is defined in global.config.application.controllers.default
   if (!url) {
     exe = require('./controllers/' + controller);
@@ -62,32 +64,33 @@ hare.use(function(req, res, next) {
       action = (url[2]) ? url[2] : 'index';
 
       global.lang = require('./languages/' + url[0]);
-
-      if (segments == 1) {
-        exe = require('./controllers/' + global.config.application.controllers.default);
-        exe.index();
-      }
+      hare.locals.currentLanguage = url[0];
 
       start = (segments > 3) ? 3 : 2;
     }
 
-    if (segments > 2) {
-      for (var i = start; i <= segments; i++) {
-        if (url[i]) {
-          params.push(url[i].sanitize());
+    if (segments == 1) {
+      exe = require('./controllers/' + global.config.application.controllers.default);
+      exe.index();
+    } else {
+      if (segments > 2) {
+        for (var i = start; i <= segments; i++) {
+          if (url[i]) {
+            params.push(url[i].sanitize());
+          }
         }
       }
-    }
 
-    try {
-      if (controller != 'favicon.ico') {
-        exe = require('./controllers/' + controller);
-        exe[action](params);
+      try {
+        if (controller != 'favicon.ico') {
+          exe = require('./controllers/' + controller);
+          exe[action](params);
+        }
+      } catch(e) {
+        console.log("---ERROR FATAL---", e);
+        exe = require('./controllers/error');
+        exe.error404();
       }
-    } catch(e) {
-      console.log("---ERROR FATAL---", e);
-      exe = require('./controllers/error');
-      exe.error404();
     }
   }
 });
