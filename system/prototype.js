@@ -1,5 +1,8 @@
 /**
- *  Prototyping Array functions
+ *  Checks if a value exists in an array
+ *
+ *  @param array key
+ *  @return Returns true if needle is found in the array, false otherwise
  */
 Array.prototype.inArray = function()
 { 
@@ -13,18 +16,35 @@ Array.prototype.inArray = function()
 }
 
 /**
- *  Prototyping String functions
+ *  Sanitizes the string input (removes the single quoutes and HTML code)
+ *
+ *  @param string
+ *  @return Clean string
  */
 String.prototype.sanitize = function()
 { 
-  return decodeURIComponent([this].map(function (e) { return e; }).join('')).replace(/'/g, '');
+  return decodeURIComponent([this].map(function (e) { 
+    return e; 
+  }).join('')).replace(/'/g, '').replace(/(<([^>]+)>)/ig, '');
 }
 
+/**
+ *  Escape a string (add a slash)
+ *
+ *  @param string
+ *  @return Escaped string
+ */
 String.prototype.escape = function()
 { 
   return decodeURIComponent([this].map(function (e) { return e; }).join('')).replace(/'/g, "\\'");
 }
 
+/**
+ *  Encrypt a string using sha1, md5 & salt
+ *
+ *  @param string
+ *  @return Encrypted string
+ */
 String.prototype.encrypt = function()
 {
   var salt = global.config.security.salt,
@@ -37,18 +57,24 @@ String.prototype.encrypt = function()
   return md5.sha1();
 }
 
+/**
+ *  Encrypt a string using sha1
+ *
+ *  @param string
+ *  @return Encrypted string
+ */
 String.prototype.sha1 = function()
 {
   var msg = decodeURIComponent([this].map(function (e) { return e; }).join(''));
 
-  function rotate_left(n, s)
+  function rotateLeft(n, s)
   {
     var t4 = (n << s) | (n >>> (32 - s));
     
     return t4;
   };
 
-  function lsb_hex(val)
+  function lsbHex(val)
   {
     var str = "";
     var i;
@@ -64,7 +90,7 @@ String.prototype.sha1 = function()
     return str;
   };
 
-  function cvt_hex(val)
+  function cvtHex(val)
   {
     var str = "";
     var i;
@@ -78,7 +104,8 @@ String.prototype.sha1 = function()
     return str;
   };
 
-  function Utf8Encode(string) {
+  function utf8Encode(string)
+  {
     string = string.replace(/\r\n/g, "\n");
     
     var utftext = "";
@@ -101,58 +128,62 @@ String.prototype.sha1 = function()
     return utftext;
   };
 
-  var blockstart;
-  var i, j;
-  var W = new Array(80);
-  var H0 = 0x67452301;
-  var H1 = 0xEFCDAB89;
-  var H2 = 0x98BADCFE;
-  var H3 = 0x10325476;
-  var H4 = 0xC3D2E1F0;
-  var A, B, C, D, E;
-  var temp;
+  var blockstart,
+      i, j,
+      W = new Array(80),
+      H0 = 0x67452301,
+      H1 = 0xEFCDAB89,
+      H2 = 0x98BADCFE,
+      H3 = 0x10325476,
+      H4 = 0xC3D2E1F0,
+      A, B, C, D, E,
+      temp;
 
-  msg = Utf8Encode(msg);
+  msg = utf8Encode(msg);
 
-  var msg_len = msg.length;
-
-  var word_array = new Array();
+  var msgLen = msg.length,
+      wordArray = new Array();
   
-  for (i = 0; i < msg_len - 3; i += 4) {
+  for (i = 0; i < msgLen - 3; i += 4) {
     j = msg.charCodeAt(i) << 24 | msg.charCodeAt(i + 1) << 16 |
     msg.charCodeAt(i + 2) << 8 | msg.charCodeAt(i + 3);
-    word_array.push(j);
+    wordArray.push(j);
   }
 
-  switch (msg_len % 4) {
+  switch (msgLen % 4) {
     case 0:
       i = 0x080000000;
       break;
     
     case 1:
-      i = msg.charCodeAt(msg_len - 1) << 24 | 0x0800000;
+      i = msg.charCodeAt(msgLen - 1) << 24 | 0x0800000;
       break;
 
     case 2:
-      i = msg.charCodeAt(msg_len - 2) << 24 | msg.charCodeAt(msg_len - 1) << 16 | 0x08000;
+      i = msg.charCodeAt(msgLen - 2) << 24 | msg.charCodeAt(msgLen - 1) << 16 | 0x08000;
       break;
 
     case 3:
-      i = msg.charCodeAt(msg_len - 3) << 24 | msg.charCodeAt(msg_len - 2) << 16 | msg.charCodeAt(msg_len - 1) << 8 | 0x80;
+      i = msg.charCodeAt(msgLen - 3) << 24 | msg.charCodeAt(msgLen - 2) << 16 | msg.charCodeAt(msgLen - 1) << 8 | 0x80;
       break;
   }
 
-  word_array.push(i);
+  wordArray.push(i);
 
-  while ((word_array.length % 16) != 14) word_array.push(0);
+  while ((wordArray.length % 16) != 14) wordArray.push(0);
 
-  word_array.push(msg_len >>> 29);
-  word_array.push((msg_len << 3) & 0x0ffffffff);
+  wordArray.push(msgLen >>> 29);
+  wordArray.push((msgLen << 3) & 0x0ffffffff);
 
-  for (blockstart = 0; blockstart < word_array.length; blockstart += 16) {
-    for (i = 0; i < 16; i++) W[i] = word_array[blockstart + i];
-    for (i = 16; i <= 79; i++) W[i] = rotate_left(W[i - 3] ^ W[i - 8] ^ W[i - 14] ^ W[i - 16], 1);
+  for (blockstart = 0; blockstart < wordArray.length; blockstart += 16) {
+    for (i = 0; i < 16; i++) {
+      W[i] = wordArray[blockstart + i];
+    }
 
+    for (i = 16; i <= 79; i++) {
+      W[i] = rotateLeft(W[i - 3] ^ W[i - 8] ^ W[i - 14] ^ W[i - 16], 1);
+    }
+      
     A = H0;
     B = H1;
     C = H2;
@@ -160,37 +191,37 @@ String.prototype.sha1 = function()
     E = H4;
 
     for (i = 0; i <= 19; i++) {
-      temp = (rotate_left(A, 5) + ((B & C) | (~B & D)) + E + W[i] + 0x5A827999) & 0x0ffffffff;
+      temp = (rotateLeft(A, 5) + ((B & C) | (~B & D)) + E + W[i] + 0x5A827999) & 0x0ffffffff;
       E = D;
       D = C;
-      C = rotate_left(B, 30);
+      C = rotateLeft(B, 30);
       B = A;
       A = temp;
     }
 
     for (i = 20; i <= 39; i++) {
-      temp = (rotate_left(A, 5) + (B ^ C ^ D) + E + W[i] + 0x6ED9EBA1) & 0x0ffffffff;
+      temp = (rotateLeft(A, 5) + (B ^ C ^ D) + E + W[i] + 0x6ED9EBA1) & 0x0ffffffff;
       E = D;
       D = C;
-      C = rotate_left(B, 30);
+      C = rotateLeft(B, 30);
       B = A;
       A = temp;
     }
 
     for (i = 40; i <= 59; i++) {
-      temp = (rotate_left(A, 5) + ((B & C) | (B & D) | (C & D)) + E + W[i] + 0x8F1BBCDC) & 0x0ffffffff;
+      temp = (rotateLeft(A, 5) + ((B & C) | (B & D) | (C & D)) + E + W[i] + 0x8F1BBCDC) & 0x0ffffffff;
       E = D;
       D = C;
-      C = rotate_left(B, 30);
+      C = rotateLeft(B, 30);
       B = A;
       A = temp;
     }
 
     for (i = 60; i <= 79; i++) {
-      temp = (rotate_left(A, 5) + (B ^ C ^ D) + E + W[i] + 0xCA62C1D6) & 0x0ffffffff;
+      temp = (rotateLeft(A, 5) + (B ^ C ^ D) + E + W[i] + 0xCA62C1D6) & 0x0ffffffff;
       E = D;
       D = C;
-      C = rotate_left(B, 30);
+      C = rotateLeft(B, 30);
       B = A;
       A = temp;
     }
@@ -202,29 +233,37 @@ String.prototype.sha1 = function()
     H4 = (H4 + E) & 0x0ffffffff;
   }
 
-  var temp = cvt_hex(H0) + cvt_hex(H1) + cvt_hex(H2) + cvt_hex(H3) + cvt_hex(H4);
+  var temp = cvtHex(H0) + cvtHex(H1) + cvtHex(H2) + cvtHex(H3) + cvtHex(H4);
 
   return temp.toLowerCase();
 }
 
+/**
+ *  Encrypt a string using md5
+ *
+ *  @param string
+ *  @return Encrypted string
+ */
 String.prototype.md5 = function()
 {
   var string = decodeURIComponent([this].map(function (e) { return e; }).join(''));
  
-  function RotateLeft(lValue, iShiftBits) {
+  function rotateLeft(lValue, iShiftBits) {
     return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
   }
 
-  function AddUnsigned(lX, lY) {
+  function addUnsigned(lX, lY) {
     var lX4, lY4, lX8, lY8, lResult;
     lX8 = (lX & 0x80000000);
     lY8 = (lY & 0x80000000);
     lX4 = (lX & 0x40000000);
     lY4 = (lY & 0x40000000);
     lResult = (lX & 0x3FFFFFFF) + (lY & 0x3FFFFFFF);
+
     if (lX4 & lY4) {
       return (lResult ^ 0x80000000 ^ lX8 ^ lY8);
     }
+    
     if (lX4 | lY4) {
       if (lResult & 0x40000000) {
         return (lResult ^ 0xC0000000 ^ lX8 ^ lY8);
@@ -253,26 +292,26 @@ String.prototype.md5 = function()
   }
 
   function FF(a, b, c, d, x, s, ac) {
-    a = AddUnsigned(a, AddUnsigned(AddUnsigned(F(b, c, d), x), ac));
-    return AddUnsigned(RotateLeft(a, s), b);
+    a = addUnsigned(a, addUnsigned(addUnsigned(F(b, c, d), x), ac));
+    return addUnsigned(rotateLeft(a, s), b);
   };
 
   function GG(a, b, c, d, x, s, ac) {
-    a = AddUnsigned(a, AddUnsigned(AddUnsigned(G(b, c, d), x), ac));
-    return AddUnsigned(RotateLeft(a, s), b);
+    a = addUnsigned(a, addUnsigned(addUnsigned(G(b, c, d), x), ac));
+    return addUnsigned(rotateLeft(a, s), b);
   };
 
   function HH(a, b, c, d, x, s, ac) {
-    a = AddUnsigned(a, AddUnsigned(AddUnsigned(H(b, c, d), x), ac));
-    return AddUnsigned(RotateLeft(a, s), b);
+    a = addUnsigned(a, addUnsigned(addUnsigned(H(b, c, d), x), ac));
+    return addUnsigned(rotateLeft(a, s), b);
   };
 
   function II(a, b, c, d, x, s, ac) {
-    a = AddUnsigned(a, AddUnsigned(AddUnsigned(I(b, c, d), x), ac));
-    return AddUnsigned(RotateLeft(a, s), b);
+    a = addUnsigned(a, addUnsigned(addUnsigned(I(b, c, d), x), ac));
+    return addUnsigned(rotateLeft(a, s), b);
   };
 
-  function ConvertToWordArray(string) {
+  function convertToWordArray(string) {
     var lWordCount;
     var lMessageLength = string.length;
     var lNumberOfWords_temp1 = lMessageLength + 8;
@@ -281,38 +320,43 @@ String.prototype.md5 = function()
     var lWordArray = Array(lNumberOfWords - 1);
     var lBytePosition = 0;
     var lByteCount = 0;
+
     while (lByteCount < lMessageLength) {
       lWordCount = (lByteCount - (lByteCount % 4)) / 4;
       lBytePosition = (lByteCount % 4) * 8;
       lWordArray[lWordCount] = (lWordArray[lWordCount] | (string.charCodeAt(lByteCount) << lBytePosition));
       lByteCount++;
     }
+    
     lWordCount = (lByteCount - (lByteCount % 4)) / 4;
     lBytePosition = (lByteCount % 4) * 8;
     lWordArray[lWordCount] = lWordArray[lWordCount] | (0x80 << lBytePosition);
     lWordArray[lNumberOfWords - 2] = lMessageLength << 3;
     lWordArray[lNumberOfWords - 1] = lMessageLength >>> 29;
+    
     return lWordArray;
   };
 
-  function WordToHex(lValue) {
-    var WordToHexValue = "",
-      WordToHexValue_temp = "",
-      lByte, lCount;
+  function wordToHex(lValue) {
+    var wordToHexValue = "",
+        wordToHexValue_temp = "",
+        lByte, lCount;
+
     for (lCount = 0; lCount <= 3; lCount++) {
       lByte = (lValue >>> (lCount * 8)) & 255;
-      WordToHexValue_temp = "0" + lByte.toString(16);
-      WordToHexValue = WordToHexValue + WordToHexValue_temp.substr(WordToHexValue_temp.length - 2, 2);
+      wordToHexValue_temp = "0" + lByte.toString(16);
+      wordToHexValue = wordToHexValue + wordToHexValue_temp.substr(wordToHexValue_temp.length - 2, 2);
     }
-    return WordToHexValue;
+
+    return wordToHexValue;
   };
 
-  function Utf8Encode(string) {
+  function utf8Encode(string) {
     string = string.replace(/\r\n/g, "\n");
+    
     var utftext = "";
 
     for (var n = 0; n < string.length; n++) {
-
       var c = string.charCodeAt(n);
 
       if (c < 128) {
@@ -331,29 +375,28 @@ String.prototype.md5 = function()
     return utftext;
   };
 
-  var x = Array();
-  var k, AA, BB, CC, DD, a, b, c, d;
-  var S11 = 7,
-    S12 = 12,
-    S13 = 17,
-    S14 = 22;
-  var S21 = 5,
-    S22 = 9,
-    S23 = 14,
-    S24 = 20;
-  var S31 = 4,
-    S32 = 11,
-    S33 = 16,
-    S34 = 23;
-  var S41 = 6,
-    S42 = 10,
-    S43 = 15,
-    S44 = 21;
+  var x = Array(),
+      k, AA, BB, CC, DD, a, b, c, d,
+      S11 = 7,
+      S12 = 12,
+      S13 = 17,
+      S14 = 22,
+      S21 = 5,
+      S22 = 9,
+      S23 = 14,
+      S24 = 20,
+      S31 = 4,
+      S32 = 11,
+      S33 = 16,
+      S34 = 23,
+      S41 = 6,
+      S42 = 10,
+      S43 = 15,
+      S44 = 21;
 
-  string = Utf8Encode(string);
+  string = utf8Encode(string);
 
-  x = ConvertToWordArray(string);
-
+  x = convertToWordArray(string);
   a = 0x67452301;
   b = 0xEFCDAB89;
   c = 0x98BADCFE;
@@ -428,13 +471,13 @@ String.prototype.md5 = function()
     d = II(d, a, b, c, x[k + 11], S42, 0xBD3AF235);
     c = II(c, d, a, b, x[k + 2], S43, 0x2AD7D2BB);
     b = II(b, c, d, a, x[k + 9], S44, 0xEB86D391);
-    a = AddUnsigned(a, AA);
-    b = AddUnsigned(b, BB);
-    c = AddUnsigned(c, CC);
-    d = AddUnsigned(d, DD);
+    a = addUnsigned(a, AA);
+    b = addUnsigned(b, BB);
+    c = addUnsigned(c, CC);
+    d = addUnsigned(d, DD);
   }
 
-  var temp = WordToHex(a) + WordToHex(b) + WordToHex(c) + WordToHex(d);
+  var temp = wordToHex(a) + wordToHex(b) + wordToHex(c) + wordToHex(d);
 
   return temp.toLowerCase();
 }
