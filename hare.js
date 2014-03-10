@@ -27,6 +27,7 @@ hare.use(express.urlencoded());
 hare.use(express.methodOverride());
 hare.use(hare.router);
 hare.use(express.static(path.join(__dirname, 'public')));
+hare.use(express.favicon(path.join(__dirname, 'public/themes/' + global.config.site.theme + '/images/favicon.ico')));
 
 // Development only
 if (hare.get('env') == 'development') {
