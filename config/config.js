@@ -10,7 +10,7 @@ var config = {
   
   site: {
     url: 'http://localhost:3000',
-    title: 'CodeJobs',
+    title: 'Hare.js',
     language: 'en',
     theme: 'default',
     html: {
@@ -31,6 +31,11 @@ var config = {
   
   server: {
     environment: 'local',
+    files: {
+      filter: [
+        'favicon.ico', 'img', 'js', 'images', 'stylesheets', 'css', 'themes'
+      ]
+    },
     debug: true
   },
 
