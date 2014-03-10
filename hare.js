@@ -82,7 +82,7 @@ hare.use(function(req, res, next) {
       }
 
       try {
-        if (controller != 'favicon.ico') {
+        if (!global.config.server.files.filter.inArray(controller)) {
           exe = require('./controllers/' + controller);
           exe[action](params);
         }
