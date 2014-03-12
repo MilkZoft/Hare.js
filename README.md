@@ -37,7 +37,7 @@ npm install
 ##### Start Node Server
 
 ```sh
-node app
+node hare
 ```
 
 Go to [localhost:3000]
