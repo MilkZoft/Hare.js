@@ -12,7 +12,7 @@ This framework was developed by [Carlos Santana] with [@codejobs] community supp
 
 Version
 ----
-0.0.1
+0.0.2
 
 Tech
 -----------
@@ -21,6 +21,7 @@ Hare.js uses a number of open source projects to work properly:
 * [Node.js] - evented I/O for the backend
 * [Express] - web application framework for node
 * [Jade] - Node Template Engine
+* [Stylus] - Expressive, dynamic, robust CSS
 * [MySQL] - The world's most popular open source database 
 * [MongoDB] - an open-source document database
 * [jQuery] - JavaScript framework
@@ -54,9 +55,10 @@ MIT
 [Carlos Santana]:http://www.twitter.com/czantany
 [@codejobs]:http://twitter.com/codejobs
 [Jade]:http://jade-lang.com
+[Stylus]:http://learnboost.github.io/stylus
 [MySQL]:http://www.mysql.com
 [node.js]:http://nodejs.org
 [MongoDB]:http://www.mongodb.org/
 [jQuery]:http://jquery.com
 [express]:http://expressjs.com
-[@hare_js]:http://www.twitter.com/harejs
+[@hare_js]:http://www.twitter.com/hare_js
